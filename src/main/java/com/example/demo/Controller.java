@@ -11,61 +11,94 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
-    @GetMapping("/")
+   @GetMapping("/")
     public String index() {
-        
         return """
         <html>
         <head>
-            <title>Profil Syahdan</title>
+            <title>Profil Sukses - Syahdan</title>
             <style>
+                * { box-sizing: border-box; }
                 body { 
-                    background: #f0f2f5; 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-                    display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;
+                    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+                    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; 
+                    display: flex; justify-content: center; align-items: center; 
+                    min-height: 100vh; margin: 0; 
                 }
                 .card {
-                    background: white; padding: 30px; border-radius: 15px; 
-                    box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px;
+                    background: white; padding: 40px; border-radius: 20px; 
+                    box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+                    width: 420px; text-align: center;
                 }
+                .success-header {
+                    color: #1e8e3e; background: #e6f4ea; padding: 15px;
+                    border-radius: 12px; margin-bottom: 25px; font-weight: bold;
+                    font-size: 16px; border: 1px solid #ceead6;
+                }
+                .avatar {
+                    width: 70px; height: 70px; background: #1a73e8; color: white;
+                    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+                    font-size: 28px; font-weight: bold; margin: 0 auto 15px;
+                }
+                h2 { color: #202124; margin: 0 0 20px 0; font-size: 20px; }
                 
-                h2 { color: #1a73e8; border-bottom: 2px solid #e8f0fe; padding-bottom: 10px; }
-                .info { margin: 15px 0; font-size: 14px; color: #555; }
-                .info b { color: #333; width: 80px; display: inline-block; }
-                button { 
-                    background: #1a73e8; color: white; border: none; padding: 10px 20px; 
-                    border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px;
+                .info-container { text-align: left; margin-bottom: 25px; background: #f8f9fa; padding: 20px; border-radius: 12px; }
+                .info-row { 
+                    display: grid; grid-template-columns: 80px 10px 1fr; 
+                    margin-bottom: 10px; font-size: 14px; color: #5f6368;
                 }
-                button:hover { background: #1557b0; }
-                #secret-hobi { display: none; margin-top: 10px; padding: 10px; background: #e8f0fe; border-radius: 5px; }
+                .info-row b { color: #202124; }
+                
+                button { 
+                    background: #1a73e8; color: white; border: none; padding: 12px; 
+                    border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600;
+                    transition: all 0.2s;
+                }
+                button:hover { background: #1557b0; transform: translateY(-1px); }
+                
+                #extra-info { 
+                    display: none; margin-top: 20px; text-align: left;
+                    padding-top: 15px; border-top: 1px solid #eee;
+                    animation: fadeIn 0.3s ease;
+                }
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
             </style>
         </head>
         <body>
             <div class="card">
-                <h2 style="text-align: center;"> Profil Mahasiswa</h2>
-                <div class="info"><b>NIM</b> : 23110065</div>
-                <div class="info"><b>Nama</b> : Syahdan Mutahariq</div>
-                <div class="info"><b>Kelas</b> : J 2023</div>
-                <div class="info"><b>Alamat</b> : Kopo Bandung</div>
-                <div class="info"><b>No. HP</b> : 089677121092</div>
+                <div class="success-header">
+                     Selamat! Web Sederhana Spring Boot Berhasil Berjalan
+                </div>
                 
-                <hr style="border: 0.5px solid #eee">
+                <div class="avatar">SM</div>
+                <h2>Biodata Mahasiswa</h2>
                 
-                <button onclick="toggleHobi()">Lihat Cita-cita & Hobi</button>
+                <div class="info-container">
+                    <div class="info-row"><b>NIM</b><span>:</span>23110065</div>
+                    <div class="info-row"><b>Nama</b><span>:</span>Syahdan Mutahariq</div>
+                    <div class="info-row"><b>Kelas</b><span>:</span>J 2023</div>
+                    <div class="info-row"><b>Alamat</b><span>:</span>Kopo, Bandung</div>
+                    <div class="info-row"><b>No. HP</b><span>:</span>089677121092</div>
+                </div>
                 
-                <div id="secret-hobi">
-                    <p> <b>Cita-cita:</b> Senior Software Engineer</p>
-                    <p> <b>Hobi:</b> 404 Not Found</p>
+                <button onclick="toggleInfo()">Lihat Detail Lainnya</button>
+                
+                <div id="extra-info">
+                    <div style="margin-bottom: 8px;"> <b>Cita-cita:</b> Senior Software Engineer</div>
+                    <div> <b>Hobi:</b> 404 Not Found</div>
                 </div>
             </div>
 
             <script>
-                function toggleHobi() {
-                    var x = document.getElementById("secret-hobi");
+                function toggleInfo() {
+                    const x = document.getElementById("extra-info");
+                    const btn = document.querySelector("button");
                     if (x.style.display === "none" || x.style.display === "") {
                         x.style.display = "block";
+                        btn.innerText = "Sembunyikan Detail";
                     } else {
                         x.style.display = "none";
+                        btn.innerText = "Lihat Detail Lainnya";
                     }
                 }
             </script>
@@ -73,8 +106,6 @@ public class Controller {
         </html>
         """;
     }
-
-    
     @GetMapping("/api/profile")
     public Map<String, Object> getProfile(){
         Map<String, Object> data = new LinkedHashMap<>();
